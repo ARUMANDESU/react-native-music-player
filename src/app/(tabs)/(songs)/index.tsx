@@ -5,7 +5,7 @@ import { Text, View } from 'react-native'
 const SongsScreen = () => {
 	return (
 		<View style={defaultStyles.container}>
-			<Text style={defaultStyles.text}>Songs screen</Text>
+			<Text style={defaultStyles.text}></Text>
 		</View>
 	)
 }

@@ -6,7 +6,7 @@ const setupPlayer = async () => {
 		maxCacheSize: 1024 * 10,
 	})
 
-	await TrackPlayer.setVolume(0.6)
+	await TrackPlayer.setVolume(0.3)
 	await TrackPlayer.setRepeatMode(RepeatMode.Queue)
 }
 

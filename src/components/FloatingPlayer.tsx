@@ -1,5 +1,6 @@
 import { unknownTrackImageUri } from '@/constants/images'
 import { colors } from '@/constants/tokens'
+import useLastActiveTrack from '@/hooks/useLastActiveTrack'
 import { defaultStyles } from '@/styles'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, ViewProps } from 'react-native'
@@ -9,11 +10,10 @@ import { PlayPauseButton, SkipToNextButton } from './PlayerControls'
 
 const FloatingPlayer = ({ style }: ViewProps) => {
 	const activeTrack = useActiveTrack()
+	const lastActiveTrack = useLastActiveTrack()
 
 	//todo: change this later
-	const displayedTrack: Track = activeTrack ?? {
-		title: 'something',
-	}
+	const displayedTrack: Track = activeTrack ?? lastActiveTrack
 
 	if (!displayedTrack) return null
 

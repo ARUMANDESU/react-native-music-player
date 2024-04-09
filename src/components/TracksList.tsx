@@ -13,13 +13,19 @@ const ItemDevider = () => (
 )
 
 const TracksList = ({ tracks, ...flatlistProps }: TracksListProps) => {
+	const handleTrackSelect = (track: Track) => {
+		console.log(track)
+	}
+
 	return (
 		<FlatList
 			data={tracks}
 			contentContainerStyle={{ paddingTop: 10, paddingBottom: 228 }}
 			ItemSeparatorComponent={ItemDevider}
 			ListFooterComponent={ItemDevider}
-			renderItem={({ item: track }) => <TrackListItem track={track} />}
+			renderItem={({ item: track }) => (
+				<TrackListItem track={track} onTrackSelect={handleTrackSelect} />
+			)}
 			{...flatlistProps}
 		/>
 	)

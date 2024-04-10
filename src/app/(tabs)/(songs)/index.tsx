@@ -9,7 +9,7 @@ import React, { useMemo, useRef, useState } from 'react'
 import { NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView, View } from 'react-native'
 
 const SongsScreen = () => {
-	const [isReachedHalfList, setIsReachedHalfList] = useState(false)
+	const [isReachedBackToTopOffset, setIsReachedHalfList] = useState(false)
 	const scrollViewRef = useRef<ScrollView>(null)
 
 	const search = useNavigationSearch({
@@ -46,7 +46,7 @@ const SongsScreen = () => {
 			>
 				<TracksList tracks={filteredTracks} scrollEnabled={false} />
 			</ScrollView>
-			{isReachedHalfList && (
+			{isReachedBackToTopOffset && (
 				<CircleButton style={{}} iconName="caret-up" size={40} onPress={hanleOnPressBackToTop} />
 			)}
 		</View>

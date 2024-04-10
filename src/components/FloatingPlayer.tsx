@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image'
 import { Track, useActiveTrack } from 'react-native-track-player'
 import MovingText from './MovingText'
 import { PlayPauseButton, SkipToNextButton } from './PlayerControls'
+import PlayerProgressBar from './PlayerProgressBar'
 
 const FloatingPlayer = ({ style }: ViewProps) => {
 	const router = useRouter()
@@ -24,26 +25,35 @@ const FloatingPlayer = ({ style }: ViewProps) => {
 	if (!displayedTrack) return null
 
 	return (
-		<TouchableOpacity onPress={handlePress} activeOpacity={0.9} style={[styles.container, style]}>
+		<TouchableOpacity onPress={handlePress} activeOpacity={0.9} style={[style]}>
 			<>
-				<FastImage
-					source={{
-						uri: displayedTrack.artwork ?? unknownTrackImageUri,
-					}}
-					style={styles.trackArtworkImage}
-				/>
-
-				<View style={styles.trackTitleContainer}>
-					<MovingText
-						style={styles.trackTitleText}
-						text={displayedTrack.title ?? ''}
-						animationThreshold={25}
+				<View style={styles.container}>
+					<FastImage
+						source={{
+							uri: displayedTrack.artwork ?? unknownTrackImageUri,
+						}}
+						style={styles.trackArtworkImage}
 					/>
-				</View>
 
-				<View style={styles.trackControlsContainer}>
-					<PlayPauseButton iconSize={24} />
-					<SkipToNextButton iconSize={22} />
+					<View style={styles.trackTitleContainer}>
+						<MovingText
+							style={styles.trackTitleText}
+							text={displayedTrack.title ?? ''}
+							animationThreshold={25}
+						/>
+					</View>
+
+					<View style={styles.trackControlsContainer}>
+						<PlayPauseButton iconSize={24} />
+						<SkipToNextButton iconSize={22} />
+					</View>
+				</View>
+				<View>
+					<PlayerProgressBar
+						style={styles.playerProgressSlider}
+						sliderHeight={2}
+						disableTrackFollow={true}
+					/>
 				</View>
 			</>
 		</TouchableOpacity>
@@ -82,6 +92,10 @@ const styles = StyleSheet.create({
 		columnGap: 20,
 		marginRight: 16,
 		paddingLeft: 16,
+	},
+	playerProgressSlider: {
+		paddingHorizontal: 10,
+		paddingBottom: 3,
 	},
 })
 

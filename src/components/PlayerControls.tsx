@@ -3,10 +3,6 @@ import { FontAwesome, FontAwesome6 } from '@expo/vector-icons'
 import { TouchableOpacity, View, ViewStyle } from 'react-native'
 import TrackPlayer, { useIsPlaying } from 'react-native-track-player'
 
-type PlayerControlsProps = {
-	style?: ViewStyle
-}
-
 type PlayerButtonProps = {
 	style?: ViewStyle
 	iconSize?: number

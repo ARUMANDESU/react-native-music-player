@@ -31,4 +31,8 @@ export const utilsStyles = StyleSheet.create({
 		marginTop: 40,
 		opacity: 0.3,
 	},
+	slider: {
+		height: 2,
+		borderRadius: 16,
+	},
 })

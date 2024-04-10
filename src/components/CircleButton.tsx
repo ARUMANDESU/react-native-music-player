@@ -1,7 +1,13 @@
 import { colors } from '@/constants/tokens'
 import { FontAwesome6 } from '@expo/vector-icons'
-import React from 'react'
-import { StyleSheet, TouchableHighlight, TouchableHighlightProps } from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, TouchableHighlightProps, TouchableOpacity } from 'react-native'
+import Animated, {
+	cancelAnimation,
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from 'react-native-reanimated'
 
 export type CircleButtonProps = {
 	iconName: string
@@ -10,14 +16,37 @@ export type CircleButtonProps = {
 	style?: TouchableHighlightProps['style']
 }
 
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity)
+
 const CircleButton = ({ iconName, size, onPress, style }: CircleButtonProps) => {
+	const opacity = useSharedValue(0)
+
+	useEffect(() => {
+		opacity.value = opacity.value + 1
+
+		return () => {
+			cancelAnimation(opacity)
+			opacity.value = 1
+		}
+	}, [opacity])
+
+	const animatedStyle = useAnimatedStyle(() => {
+		return {
+			opacity: withTiming(opacity.value),
+		}
+	})
+
 	return (
-		<TouchableHighlight
+		<AnimatedTouchableOpacity
 			onPress={onPress}
-			style={[style, { ...styles.buttonContainer, width: size + 7, height: size + 7 }]}
+			style={[
+				animatedStyle,
+				style,
+				{ ...styles.buttonContainer, width: size + 7, height: size + 7 },
+			]}
 		>
 			<FontAwesome6 name={iconName} size={size} color={colors.icon} />
-		</TouchableHighlight>
+		</AnimatedTouchableOpacity>
 	)
 }
 

@@ -13,7 +13,7 @@ const FloatingPlayer = ({ style }: ViewProps) => {
 	const lastActiveTrack = useLastActiveTrack()
 
 	//todo: change this later
-	const displayedTrack: Track = activeTrack ?? lastActiveTrack
+	const displayedTrack: Track | undefined = activeTrack ?? lastActiveTrack
 
 	if (!displayedTrack) return null
 

@@ -1,6 +1,6 @@
 import { unknownTrackImageUri } from '@/constants/images'
 import { utilsStyles } from '@/styles'
-import React from 'react'
+import React, { MutableRefObject } from 'react'
 import { FlatList, FlatListProps, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import TrackPlayer, { Track } from 'react-native-track-player'
@@ -8,13 +8,14 @@ import TrackListItem from './TrackListItem'
 
 export type TracksListProps = Partial<FlatListProps<Track>> & {
 	tracks: Track[]
+	ref?: MutableRefObject<FlatList<Track>>
 }
 
 const ItemDevider = () => (
 	<View style={{ ...utilsStyles.itemSeparator, marginVertical: 9, marginLeft: 60 }} />
 )
 
-const TracksList = ({ tracks, ...flatlistProps }: TracksListProps) => {
+const TracksList = ({ tracks, ref, ...flatlistProps }: TracksListProps) => {
 	const handleTrackSelect = async (track: Track) => {
 		await TrackPlayer.load(track)
 		await TrackPlayer.play()
@@ -41,6 +42,8 @@ const TracksList = ({ tracks, ...flatlistProps }: TracksListProps) => {
 			renderItem={({ item: track }) => (
 				<TrackListItem track={track} onTrackSelect={handleTrackSelect} />
 			)}
+			onEndReachedThreshold={0.2}
+			ref={ref}
 			{...flatlistProps}
 		/>
 	)

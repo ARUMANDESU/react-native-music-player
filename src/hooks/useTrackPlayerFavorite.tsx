@@ -1,0 +1,29 @@
+import { useFavorites } from '@/app/store'
+import { useCallback } from 'react'
+import TrackPlayer, { useActiveTrack } from 'react-native-track-player'
+import { useDispatch } from 'react-redux'
+
+export const useTrackPlayerFavorite = () => {
+	const activeTrack = useActiveTrack()
+	const dispatch = useDispatch()
+
+	const { favorites, toggleTrackFavorite } = useFavorites()
+
+	const isFavorite = favorites.find((track) => track.url === activeTrack?.url)?.rating === 1
+
+	const toggleFavorite = useCallback(async () => {
+		const id = await TrackPlayer.getActiveTrackIndex()
+
+		if (id == null) return
+
+		await TrackPlayer.updateMetadataForTrack(id, {
+			rating: isFavorite ? 0 : 1,
+		})
+
+		if (activeTrack) {
+			dispatch(toggleTrackFavorite(activeTrack))
+		}
+	}, [isFavorite, activeTrack, dispatch, toggleTrackFavorite])
+
+	return { isFavorite, toggleFavorite }
+}

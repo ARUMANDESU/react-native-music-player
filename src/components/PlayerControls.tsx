@@ -23,6 +23,31 @@ export const PlayPauseButton = ({ iconSize, style }: PlayerButtonProps) => {
 	)
 }
 
+export const FavoriteButton = ({
+	isFavorite,
+	onPress,
+}: {
+	isFavorite: boolean
+	onPress: () => void
+}) => {
+	return (
+		<TouchableOpacity
+			activeOpacity={0.7}
+			onPress={() => {
+				onPress()
+			}}
+		>
+			<FontAwesome
+				name={isFavorite ? 'heart' : 'heart-o'}
+				size={20}
+				color={isFavorite ? colors.primary : colors.icon}
+				style={{ marginHorizontal: 14 }}
+				onPress={onPress}
+			/>
+		</TouchableOpacity>
+	)
+}
+
 export const SkipToNextButton = ({ iconSize = 30 }: PlayerButtonProps) => {
 	return (
 		<TouchableOpacity

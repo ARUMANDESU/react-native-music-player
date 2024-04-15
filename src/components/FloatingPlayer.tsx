@@ -1,6 +1,7 @@
 import { unknownTrackImageUri } from '@/constants/images'
 import { colors } from '@/constants/tokens'
 import useLastActiveTrack from '@/hooks/useLastActiveTrack'
+import { useTrackPlayerFavorite } from '@/hooks/useTrackPlayerFavorite'
 import { defaultStyles } from '@/styles'
 import { useRouter } from 'expo-router'
 import React from 'react'
@@ -8,13 +9,15 @@ import { StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { Track, useActiveTrack } from 'react-native-track-player'
 import MovingText from './MovingText'
-import { PlayPauseButton, SkipToNextButton } from './PlayerControls'
+import { FavoriteButton, PlayPauseButton, SkipToNextButton } from './PlayerControls'
 import PlayerProgressBar from './PlayerProgressBar'
 
 const FloatingPlayer = ({ style }: ViewProps) => {
 	const router = useRouter()
 	const activeTrack = useActiveTrack()
 	const lastActiveTrack = useLastActiveTrack()
+
+	const { isFavorite, toggleFavorite } = useTrackPlayerFavorite()
 
 	const displayedTrack: Track | undefined = activeTrack ?? lastActiveTrack
 
@@ -44,6 +47,7 @@ const FloatingPlayer = ({ style }: ViewProps) => {
 					</View>
 
 					<View style={styles.trackControlsContainer}>
+						<FavoriteButton isFavorite={isFavorite} onPress={toggleFavorite} />
 						<PlayPauseButton iconSize={24} />
 						<SkipToNextButton iconSize={22} />
 					</View>

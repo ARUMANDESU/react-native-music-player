@@ -1,11 +1,56 @@
+import { useFavorites } from '@/app/store'
+import CircleButton from '@/components/CircleButton'
+import TracksList from '@/components/TracksList'
+import { screenPadding } from '@/constants/tokens'
+import { trackTitleFilter } from '@/helpers/filter'
+import { useNavigationSearch } from '@/hooks/useNavigationSearch'
 import { defaultStyles } from '@/styles'
-import React from 'react'
-import { Text, View } from 'react-native'
+import React, { useMemo, useRef, useState } from 'react'
+import { NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView, View } from 'react-native'
 
 const FavoritesScreen = () => {
+	const [isReachedBackToTopOffset, setIsReachedHalfList] = useState(false)
+	const scrollViewRef = useRef<ScrollView>(null)
+
+	const search = useNavigationSearch({
+		searchBarOptions: { placeholder: 'Find in songs' },
+	})
+
+	const { favorites } = useFavorites()
+
+	const filteredTracks = useMemo(() => {
+		if (!search) return favorites
+
+		return favorites.filter(trackTitleFilter(search))
+	}, [search, favorites])
+
+	const handleOnScrollOffSetReached = ({
+		nativeEvent,
+	}: NativeSyntheticEvent<NativeScrollEvent>) => {
+		if (nativeEvent.contentOffset.y > 250) setIsReachedHalfList(true)
+		if (nativeEvent.contentOffset.y <= 250) setIsReachedHalfList(false)
+	}
+
+	const hanleOnPressBackToTop = () => {
+		scrollViewRef?.current?.scrollTo({ y: 0, animated: true })
+	}
+
 	return (
 		<View style={defaultStyles.container}>
-			<Text style={defaultStyles.text}></Text>
+			<ScrollView
+				contentInsetAdjustmentBehavior="automatic"
+				style={{
+					paddingHorizontal: screenPadding.horizontal,
+					paddingTop: Platform.OS === 'android' ? screenPadding.vertical : 0,
+				}}
+				onScroll={handleOnScrollOffSetReached}
+				ref={scrollViewRef}
+			>
+				<TracksList tracks={filteredTracks} scrollEnabled={false} />
+			</ScrollView>
+			{isReachedBackToTopOffset && (
+				<CircleButton style={{}} iconName="caret-up" size={40} onPress={hanleOnPressBackToTop} />
+			)}
 		</View>
 	)
 }

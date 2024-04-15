@@ -13,7 +13,7 @@ const FavoritesScreen = () => {
 	const scrollViewRef = useRef<ScrollView>(null)
 
 	const search = useNavigationSearch({
-		searchBarOptions: { placeholder: 'Find in songs' },
+		searchBarOptions: { placeholder: 'Find in favorites' },
 	})
 
 	const { favorites } = useFavorites()

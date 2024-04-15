@@ -11,7 +11,7 @@ export type TracksListProps = Partial<FlatListProps<Track>> & {
 	ref?: MutableRefObject<FlatList<Track>>
 }
 
-const ItemDevider = () => (
+export const ItemDevider = () => (
 	<View style={{ ...utilsStyles.itemSeparator, marginVertical: 9, marginLeft: 60 }} />
 )
 

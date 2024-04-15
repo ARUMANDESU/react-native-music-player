@@ -1,3 +1,4 @@
+import { RootState } from '@/app/store'
 import { deposit, withdraw } from '@/features/slice'
 import { defaultStyles } from '@/styles'
 import React from 'react'
@@ -6,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const PlaylistsScreen = () => {
 	const dispatch = useDispatch()
-	const balance = useSelector((state) => state.balance.value)
+	const balance = useSelector<RootState>((state) => state.balance.value) as number
 	return (
 		<View style={defaultStyles.container}>
 			<Text style={defaultStyles.text}></Text>

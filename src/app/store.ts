@@ -1,4 +1,4 @@
-import { TrackWithPlaylist } from '@/helpers/types'
+import { Artist, TrackWithPlaylist } from '@/helpers/types'
 import { configureStore } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import balanceReducer from '../features/slice'
@@ -19,4 +19,23 @@ export const useFavorites = () => {
 		favorites,
 		toggleTrackFavorite,
 	}
+}
+
+export const useArtists = () => {
+	return useSelector<RootState>((state) =>
+		state.track.tracks.reduce((acc, track) => {
+			const existingArtist = acc.find((artist) => artist.name === track.artist)
+
+			if (existingArtist) {
+				existingArtist.tracks.push(track)
+			} else {
+				acc.push({
+					name: track.artist ?? 'Unknown',
+					tracks: [track],
+				})
+			}
+
+			return acc
+		}, [] as Artist[]),
+	) as Artist[]
 }

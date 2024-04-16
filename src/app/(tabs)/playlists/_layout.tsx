@@ -1,4 +1,5 @@
 import { StackScreenWithSearchBar } from '@/constants/layout'
+import { colors } from '@/constants/tokens'
 import { defaultStyles } from '@/styles'
 import { Stack } from 'expo-router'
 import React from 'react'
@@ -13,6 +14,30 @@ const PlaylistsScreenLayout = () => {
 					options={{
 						...StackScreenWithSearchBar,
 						headerTitle: 'Playlists',
+					}}
+				/>
+				<Stack.Screen
+					name="[name]"
+					options={{
+						headerTitle: '',
+						headerBackVisible: true,
+						headerStyle: {
+							backgroundColor: colors.background,
+						},
+						headerTintColor: colors.primary,
+					}}
+				/>
+				<Stack.Screen
+					name="create"
+					options={{
+						headerTitle: 'Create new playlist',
+						headerStyle: {
+							backgroundColor: colors.background,
+						},
+						headerTitleStyle: {
+							color: colors.text,
+						},
+						headerTintColor: colors.primary,
 					}}
 				/>
 			</Stack>

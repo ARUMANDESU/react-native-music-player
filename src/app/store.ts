@@ -1,14 +1,19 @@
-import { Artist, TrackWithPlaylist } from '@/helpers/types'
+import { unknownTrackImageUri } from '@/constants/images'
+import { Artist, Playlist, TrackWithPlaylist } from '@/helpers/types'
 import { configureStore } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import balanceReducer from '../features/slice'
-import trackReducer, { toggleTrackFavorite } from '../features/track'
+import trackReducer, { addToPlaylist, toggleTrackFavorite } from '../features/track'
 
 export const store = configureStore({
 	reducer: { balance: balanceReducer, track: trackReducer },
 })
 
 export type RootState = ReturnType<typeof store.getState>
+
+export const useTracks = () => {
+	return useSelector<RootState>((state) => state.track.tracks) as TrackWithPlaylist[]
+}
 
 export const useFavorites = () => {
 	const favorites = useSelector<RootState>((state) =>
@@ -38,4 +43,28 @@ export const useArtists = () => {
 			return acc
 		}, [] as Artist[]),
 	) as Artist[]
+}
+
+export const usePlaylists = () => {
+	const playlists = useSelector<RootState>((state) =>
+		state.track.tracks.reduce((acc, track) => {
+			track.playlist?.forEach((playlistName) => {
+				const existingPlaylist = acc.find((playlist) => playlist.name === playlistName)
+
+				if (existingPlaylist) {
+					existingPlaylist.tracks.push(track)
+				} else {
+					acc.push({
+						name: playlistName,
+						tracks: [track],
+						coverImg: track.artwork ?? unknownTrackImageUri,
+					})
+				}
+			})
+
+			return acc
+		}, [] as Playlist[]),
+	) as Playlist[]
+
+	return { playlists, addToPlaylist }
 }

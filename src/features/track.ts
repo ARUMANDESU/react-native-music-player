@@ -23,8 +23,11 @@ const tracksSlicer = createSlice({
 			})
 		},
 		addToPlaylist: (state, action) => {
+			console.log(action.payload.trackURL)
+			console.log(action.payload.playlistName)
+
 			state.tracks = state.tracks.map((currentTrack) => {
-				if (currentTrack.url === action.payload.track.url) {
+				if (currentTrack.url === action.payload.trackURL) {
 					return {
 						...currentTrack,
 						playlist: [...(currentTrack.playlist ?? []), action.payload.playlistName],

@@ -3,7 +3,7 @@ import { Track } from 'react-native-track-player'
 export type Playlist = {
 	name: string
 	tracks: Track[]
-	coverImg: string
+	coverImg?: string
 }
 
 export type Artist = {

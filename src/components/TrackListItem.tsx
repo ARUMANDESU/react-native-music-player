@@ -2,6 +2,7 @@ import { unknownTrackImageUri } from '@/constants/images'
 import { colors, fontSize } from '@/constants/tokens'
 import { defaultStyles } from '@/styles'
 import { Entypo, Ionicons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -15,6 +16,7 @@ export type TrackListItemProps = {
 
 const TrackListItem = ({ track, onTrackSelect }: TrackListItemProps) => {
 	const { playing } = useIsPlaying()
+	const router = useRouter()
 
 	const isActiveTrack = useActiveTrack()?.url === track.url
 
@@ -80,7 +82,13 @@ const TrackListItem = ({ track, onTrackSelect }: TrackListItemProps) => {
 						)}
 					</View>
 
-					<Entypo name="dots-three-horizontal" size={18} color={colors.icon} />
+					<TouchableHighlight
+						onPress={() => {
+							router.push({ pathname: '/(modals)/addToPlaylists', params: { trackUrl: track.url } })
+						}}
+					>
+						<Entypo name="dots-three-horizontal" size={18} color={colors.icon} />
+					</TouchableHighlight>
 				</View>
 			</View>
 		</TouchableHighlight>

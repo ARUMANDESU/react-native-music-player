@@ -1,14 +1,12 @@
-import { RootState } from '@/app/store'
+import { useTracks } from '@/app/store'
 import CircleButton from '@/components/CircleButton'
 import TracksList from '@/components/TracksList'
 import { screenPadding } from '@/constants/tokens'
 import { trackTitleFilter } from '@/helpers/filter'
-import { TrackWithPlaylist } from '@/helpers/types'
 import { useNavigationSearch } from '@/hooks/useNavigationSearch'
 import { defaultStyles } from '@/styles'
 import React, { useMemo, useRef, useState } from 'react'
 import { NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView, View } from 'react-native'
-import { useSelector } from 'react-redux'
 
 const SongsScreen = () => {
 	const [isReachedBackToTopOffset, setIsReachedHalfList] = useState(false)
@@ -18,7 +16,7 @@ const SongsScreen = () => {
 		searchBarOptions: { placeholder: 'Find in songs' },
 	})
 
-	const tracks = useSelector<RootState>((state) => state.track.tracks) as TrackWithPlaylist[]
+	const tracks = useTracks()
 
 	const filteredTracks = useMemo(() => {
 		if (!search) return tracks
